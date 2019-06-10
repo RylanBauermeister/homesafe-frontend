@@ -1,12 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import GoogleMap from 'google-map-react'
 import Banner from './components/Banner.js'
 import BottomBar from './components/BottomBar.js'
 import {set_map} from './actions/users.js'
 import {connect} from 'react-redux'
-import {google_api_key} from './secrets'
+import MapComponent from './components/MapComponent'
 
 class App extends React.Component {
 
@@ -29,21 +27,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Banner />
-        <div className="map-container">
-          <GoogleMap bootstrapURLKeys={{key: google_api_key}}
-                     defaultZoom={13}
-                     yesIWantToUseGoogleMapApiInternals
-                     defaultCenter={{lat: 47.6129432, lng: -122.4821475}}
-                     heatmapLibrary={true}
-                     heatmap={this.props.heatmap}
-                     >
-            <div lat={47.6129432} lng={-122.4821475}>
-              {this.props.changing_message}
-            </div>
-
-            {/* {this.props.heatmap.positions.map(crime => <div lat={crime.lat} lng={crime.lng}>DANGER</div>)} */}
-          </GoogleMap>
-        </div>
+        <MapComponent />
         <BottomBar />
       </div>
     );

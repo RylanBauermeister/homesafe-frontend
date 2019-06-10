@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import WeightingForm from './WeightingForm'
 
 export default class BottomBar extends Component {
 
@@ -11,7 +12,8 @@ export default class BottomBar extends Component {
 
   render(){
     return <div className="bottom-bar">
-      
+      <WeightingForm />
+      <div className="directions"></div>
     </div>;
   }
 }
