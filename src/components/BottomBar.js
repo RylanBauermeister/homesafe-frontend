@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import WeightingForm from './WeightingForm'
+import WeightingForm from '../containers/WeightingForm'
 
 export default class BottomBar extends Component {
 

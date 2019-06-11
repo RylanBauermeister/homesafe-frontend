@@ -64,8 +64,8 @@
 .options-container {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  padding: 0 5%;
+  width: 100%;
+  padding: 0 2.5%;
 }
 
 .crime-weight-slider {
@@ -76,6 +76,14 @@
 
 .crime-weight-slider > div {
   width: 100%;
+}
+
+
+.slider-label {
+  color: white;
+  text-align: left;
+  flex: 35%;
+  margin-right: 10px;
 }
 
 .directions {
