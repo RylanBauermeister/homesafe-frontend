@@ -1,13 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose, withProps } from "recompose";
 import {google_api_key} from '../secrets'
+import ReportMarker from './ReportMarker'
+import AvoidMarker from './AvoidMarker'
 import {connect} from 'react-redux'
 import HeatmapLayer from "react-google-maps/lib/components/visualization/HeatmapLayer";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoWindow,
+  DirectionsRenderer
 } from "react-google-maps";
 
 const MapComponent = compose(
@@ -21,9 +25,11 @@ const MapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={12} defaultCenter={{lat: 47.6129432, lng: -122.3521475}}>
+  <GoogleMap defaultZoom={14} defaultCenter={{lat: 47.6129432, lng: -122.3521475}}>
+    <DirectionsRenderer directions={props.directions} defaultOptions={{draggable: true}} options={{draggable: true}} />
     <HeatmapLayer data={props.heatmap.positions} options={{radius: 100, opacity: .75, maxIntesity: 100, dissipating:true}} />
-    <Marker position={{ lat: -34.397, lng: 150.644 }} />
+    {props.reports && props.reports.map(report => <ReportMarker report={report}/>)}
+    {props.avoids && props.avoids.map(avoid => <AvoidMarker avoid={avoid}/>)}
   </GoogleMap>
 ));
 
@@ -31,7 +37,10 @@ const mapStateToProps = state => {
   return {
     heatmap: state.heatmap,
     crimeWeights: state.crimeWeights,
-    changing_message: state.changing_message
+    directions: state.directions,
+    changing_message: state.changing_message,
+    reports: state.reports,
+    avoids: state.avoids
   }
 }
 

@@ -1,4 +1,5 @@
 const defaultState = {
+  user: null,
   heatmap: {positions: [], options: {radius: 5, opacity: .75, maxIntesity: 100, dissipating:true}},
   crimeWeights: {
     crimesAgainstPersons: 0,
@@ -6,9 +7,13 @@ const defaultState = {
     drugsAndVice: 0,
     miscCrimes: 0,
     propertyCrime: 0,
-    trafficCrime: 10
+    trafficCrime: 0
   },
+  activeMarker: {},
+  avoids: [],
   crimes: {},
+  signature: "",
+  directions: {},
   changing_message: "loading..."
 }
 
@@ -25,6 +30,13 @@ const transformDataToHeatmap = (data, state) => {
       results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: state.crimeWeights[crimeType]})
     }
   }
+  for(let report of state.reports){
+    results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+  }
+  
+  for(let avoid of state.avoids){
+    results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+  }
   return results;
 }
 
@@ -40,12 +52,21 @@ const reWeightPositions = (state, weights) => {
       results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: weights[crimeType]})
     }
   }
+
+  for(let report of state.reports){
+    results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+  }
+
+  for(let avoid of state.avoids){
+    results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+  }
   return results;
 
 
 }
 
 export const userReducer = (state = defaultState, action) => {
+  let newMap;
   switch(action.type){
     case 'ASSIGN_MAP':
       return {
@@ -59,12 +80,62 @@ export const userReducer = (state = defaultState, action) => {
         ...state.crimeWeights,
         [action.payload.crimeType]: action.payload.weight
       }
-      const newMap = reWeightPositions(state, weights)
+      newMap = reWeightPositions(state, weights)
       return {
         ...state,
         crimeWeights: weights,
         heatmap: newMap
       }
+
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.payload.user
+      }
+
+    case "SET_REPORTS":
+      return {
+        ...state,
+        reports: action.payload.reports
+      }
+
+    case "ADD_REPORT":
+      return {
+        ...state,
+        reports: [...state.reports, action.payload.report]
+      }
+
+    case "SET_AVOIDS":
+      return {
+        ...state,
+        avoids: action.payload.avoids
+      }
+
+    case "ADD_AVOID":
+      return {
+        ...state,
+        avoids: [...state.avoids, action.payload.avoid]
+      }
+
+    case 'SET_DIRECTIONS':
+      return {
+        ...state,
+        directions: action.payload.directions
+      }
+
+    case "SET_WEIGHTS":
+      newMap = reWeightPositions(state, action.payload.weights)
+      return {
+        ...state,
+        crimeWeights: action.payload.weights,
+        heatmap: newMap
+      }
+
+      case "SET_SIGNATURE":
+        return {
+          ...state,
+          signature: action.payload.signature
+        }
 
     default:
       return state;

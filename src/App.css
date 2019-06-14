@@ -86,10 +86,16 @@
   margin-right: 10px;
 }
 
-.directions {
+.directions-form {
   display: flex;
   flex: 50%;
+  height: 100%;
   border: 1px solid gray;
+}
+
+.directions-ui {
+  margin: auto;
+  width: 85%;
 }
 
 .map-container {

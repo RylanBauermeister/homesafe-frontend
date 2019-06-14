@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import FacebookLogin from 'react-facebook-login'
+import NewReportButton from './NewReportButton'
+import NewAvoidButton from './NewAvoidButton'
+import {connect} from 'react-redux'
+import {set_user, set_signature, set_weights} from '../actions/users'
+import {setAvoids} from '../actions/avoids'
+
 const BASE_URL = 'http://localhost:3000/api/v1/'
 
-export default class COMPONENT_NAME extends Component {
+class Banner extends Component {
 
   constructor(props){
     super(props)
@@ -12,6 +18,7 @@ export default class COMPONENT_NAME extends Component {
   }
 
   processFacebookResponse = (response) => {
+    this.props.setSignature(response.signedRequest)
     fetch(BASE_URL+'my_profile', {
       method: "POST",
       headers: {
@@ -26,17 +33,39 @@ export default class COMPONENT_NAME extends Component {
       })
     })
     .then(res => res.json())
-    .then(console.log)
+    .then(user => {
+      this.props.setWeights(user.crime_weights)
+      this.props.setAvoids(user.avoids)
+      this.props.setUser(user)
+    })
   }
 
   render(){
     return <div className="top-banner">
-      <FacebookLogin
+      {this.props.signature !== "" && <NewReportButton />}
+      {this.props.signature !== "" && <NewAvoidButton />}
+      {this.props.signature === "" && <FacebookLogin
         appId="388891491837070"
         autoLoad={true}
         fields="name, picture"
         callback={this.processFacebookResponse}
-      />
+      />}
     </div>;
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    signature: state.signature
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: (user) => dispatch(set_user(user)),
+    setSignature: (sig) => dispatch(set_signature(sig)),
+    setWeights: (weights) => dispatch(set_weights(weights)),
+    setAvoids: (avoids) => dispatch(setAvoids(avoids))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Banner)

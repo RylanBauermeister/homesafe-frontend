@@ -16,5 +16,4 @@ class WeightingForm extends Component {
   }
 }
 
-
 export default WeightingForm

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import WeightingForm from '../containers/WeightingForm'
+import DirectionsForm from '../containers/DirectionsForm'
+import {connect} from 'react-redux'
 
-export default class BottomBar extends Component {
+class BottomBar extends Component {
 
   constructor(props){
     super(props)
@@ -12,8 +14,16 @@ export default class BottomBar extends Component {
 
   render(){
     return <div className="bottom-bar">
-      <WeightingForm />
-      <div className="directions"></div>
+      {this.props.user && <WeightingForm />}
+      <DirectionsForm />
     </div>;
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(BottomBar)

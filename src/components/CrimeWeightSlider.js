@@ -1,41 +1,77 @@
 import React from 'react'
 import { Slider } from "react-semantic-ui-range";
 import {connect} from 'react-redux'
-import {adjust_weight} from '../actions/users'
+import {adjust_weight, set_user} from '../actions/users'
 
-const CrimeWeightSlider = props => {
+class CrimeWeightSlider extends React.Component {
+
+  constructor(props){
+    super(props)
+
+    this.sliderRef = React.createRef()
+  }
+
+  componentDidMount(){
+    // this.sliderRef.module.setValuePosition(20)
+  }
+
+  updateWeight(weight){
+    fetch("http://localhost:3000/api/v1/users/"+this.props.user.id, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        signature: this.props.signature,
+        crime_weights: {...this.props.weights, [this.props.crimeType]: weight}
+      })
+    })
+    .then(res => res.json())
+    .then(user => {
+      this.props.adjust_weight(this.props.crimeType, weight)
+      this.props.set_user(user)
+    })
+  }
+
+  render(){
+    console.log("Rerendering " + this.props.crimeType + " @ " + this.props.weights[this.props.crimeType])
     return (
       <div className="crime-weight-slider">
         <div className="slider-label">
-          {props.crimeType}
+          {this.props.crimeType}
         </div>
           <div className="slider-bar">
-            <Slider
+            <Slider ref={this.sliderRef}
               color="red"
               inverted={true}
               settings={{
-                start: props.weights[props.crimeType],
+                start: this.props.weights[this.props.crimeType],
                 min: 0,
                 max: 100,
                 step: 1,
                 onChange: value => {
-                  props.adjust_weight(props.crimeType, value)
+                  this.updateWeight(value)
                 }
               }}
             />
           </div>
       </div>
     )
+  }
+
 }
 
 const mapStateToProps = state => {
   return {
-    weights: state.crimeWeights
+    weights: state.crimeWeights,
+    signature: state.signature,
+    user: state.user
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    adjust_weight: (crimeType, weight) => dispatch(adjust_weight(crimeType, weight))
+    adjust_weight: (crimeType, weight) => dispatch(adjust_weight(crimeType, weight)),
+    set_user: (user) => dispatch(set_user(user))
   }
 }
 
