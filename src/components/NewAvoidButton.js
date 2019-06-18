@@ -8,8 +8,9 @@ class NewAvoidButton extends Component {
 
   constructor(props){
     super(props)
-    this.state = { modalOpen: false }
-
+    this.state = {
+      modalOpen: false
+    }
     this.avoidForm = React.createRef()
   }
 
@@ -45,17 +46,28 @@ class NewAvoidButton extends Component {
     this.setState({ modalOpen: false })
   }
 
+  getButtonToRender(){
+    if(this.props.windowSize.width <= 475){
+      return <Button color="orange" onClick={this.handleOpen}>
+        <Icon name="ban"/>
+      </Button>
+    } else {
+      return <Button color="orange" icon="ban" content="New Avoid" onClick={this.handleOpen}/>
+    }
+  }
+
   render(){
     return (
       <Modal
-        trigger={<Button basic negative onClick={this.handleOpen}>New Avoid</Button>}
+        trigger={this.getButtonToRender()}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         size='small'
+        closeIcon
       >
-        <Header icon='warning sign' content='Create New Avoid' />
+        <Header icon='ban' content='Create New Avoid' />
         <Modal.Content>
-          <h3>Think a safe route is no good? Avoid it!</h3>
+          <h3>Have a place you personally don't like going? Skip it.</h3>
           <form ref={this.avoidForm} className="ui form">
             <div className="field">
               <label>Address To Avoid</label>
@@ -70,7 +82,7 @@ class NewAvoidButton extends Component {
           </form>
         </Modal.Content>
         <Modal.Actions>
-          <Button color='green' onClick={() => this.handleClose(true)} inverted>
+          <Button color='green' onClick={() => this.handleClose(true)}>
             <Icon name='checkmark' /> Create
           </Button>
         </Modal.Actions>
@@ -82,7 +94,8 @@ class NewAvoidButton extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    signature: state.signature
+    signature: state.signature,
+    windowSize: state.windowSize
   }
 }
 

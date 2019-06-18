@@ -3,14 +3,16 @@ import {connect} from 'react-redux'
 import {Modal, Button, Header, Icon} from 'semantic-ui-react'
 import {Marker} from "react-google-maps"
 import {setReports} from "../actions/reports"
+import LikeButton from "./LikeButton"
 
 
 class ReportMarker extends Component {
 
   constructor(props){
     super(props)
-    this.state = { modalOpen: false }
-
+    this.state = {
+      modalOpen: false
+    }
     this.deleteReport = this.deleteReport.bind(this)
   }
 
@@ -37,7 +39,7 @@ class ReportMarker extends Component {
   render(){
     return <div>
       <Modal
-        trigger={<Marker position={{lat: this.props.report.lat, lng: this.props.report.lng}} onClick={this.handleOpen}/>}
+        trigger={<Marker icon="report_marker_white.png" position={{lat: this.props.report.lat, lng: this.props.report.lng}} onClick={this.handleOpen}/>}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         size='small'
@@ -50,7 +52,8 @@ class ReportMarker extends Component {
           </div>
         </Modal.Content>
         <Modal.Actions>
-          {this.props.user && this.props.user.id === this.props.report.user_id && <Button negative onClick={this.deleteReport} content="Delete This Report"/>}
+          <LikeButton report={this.props.report}/>
+          {this.props.user && this.props.user.id === this.props.report.user.id && <Button negative onClick={this.deleteReport} content="Delete This Report"/>}
         </Modal.Actions>
       </Modal>
 
@@ -62,7 +65,8 @@ class ReportMarker extends Component {
 const mapStateToProps = state => {
   return {
     signature: state.signature,
-    user: state.user
+    user: state.user,
+    reports: state.reports
   }
 }
 

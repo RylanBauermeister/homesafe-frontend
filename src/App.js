@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Banner from './components/Banner.js'
 import BottomBar from './components/BottomBar.js'
-import {set_map} from './actions/users.js'
+import {set_map, set_window_size} from './actions/users.js'
 import {setReports} from './actions/reports.js'
 import {connect} from 'react-redux'
 import MapComponent from './components/MapComponent'
@@ -14,6 +14,7 @@ class App extends React.Component {
 
     this.loadReports();
     this.loadCrimes();
+    window.addEventListener('resize', this.props.updateWindowSize)
   }
 
   loadCrimes(){
@@ -36,7 +37,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <Banner />
-        <MapComponent />
+        <div className="map-container">
+          <MapComponent />
+        </div>
         <BottomBar />
       </div>
     );
@@ -54,7 +57,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     set_heatmap: map => dispatch(set_map(map)),
-    setReports: reports => dispatch(setReports(reports))
+    setReports: reports => dispatch(setReports(reports)),
+    updateWindowSize: () => dispatch(set_window_size())
   }
 }
 

@@ -21,3 +21,7 @@ export const set_signature = (signature) => {
 export const set_weights = (weights) => {
   return {type: "SET_WEIGHTS", payload: {weights}}
 }
+
+export const set_window_size = () => {
+  return {type: "SET_WINDOW_SIZE"}
+}

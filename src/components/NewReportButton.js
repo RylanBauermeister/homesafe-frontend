@@ -45,13 +45,24 @@ class NewReportButton extends Component {
     this.setState({ modalOpen: false })
   }
 
+  getButtonToRender(){
+    if(this.props.windowSize.width <= 475){
+      return <Button color="red" onClick={this.handleOpen}>
+        <Icon name="warning sign"/>
+      </Button>
+    } else {
+      return <Button color="red" icon="warning sign" content="New Report" onClick={this.handleOpen}/>
+    }
+  }
+
   render(){
     return (
       <Modal
-        trigger={<Button basic negative onClick={this.handleOpen}>New Report</Button>}
+        trigger={this.getButtonToRender()}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         size='small'
+        closeIcon
       >
         <Header icon='warning sign' content='Create New Report' />
         <Modal.Content>
@@ -70,7 +81,7 @@ class NewReportButton extends Component {
           </form>
         </Modal.Content>
         <Modal.Actions>
-          <Button color='green' onClick={() => this.handleClose(true)} inverted>
+          <Button color='green' onClick={() => this.handleClose(true)}>
             <Icon name='checkmark' /> Create
           </Button>
         </Modal.Actions>
@@ -82,7 +93,8 @@ class NewReportButton extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    signature: state.signature
+    signature: state.signature,
+    windowSize: state.windowSize
   }
 }
 

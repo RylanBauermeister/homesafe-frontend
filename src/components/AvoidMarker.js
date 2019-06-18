@@ -37,7 +37,7 @@ class AvoidMarker extends Component {
   render(){
     return <div>
       <Modal
-        trigger={<Marker position={{lat: this.props.avoid.lat, lng: this.props.avoid.lng}} onClick={this.handleOpen}/>}
+        trigger={<Marker icon="avoid_marker.png" position={{lat: this.props.avoid.lat, lng: this.props.avoid.lng}} onClick={this.handleOpen}/>}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         size='small'

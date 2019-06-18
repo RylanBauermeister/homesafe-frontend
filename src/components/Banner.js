@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import FacebookLogin from 'react-facebook-login'
-import NewReportButton from './NewReportButton'
-import NewAvoidButton from './NewAvoidButton'
+import ButtonBarRight from '../containers/ButtonBarRight'
 import {connect} from 'react-redux'
 import {set_user, set_signature, set_weights} from '../actions/users'
 import {setAvoids} from '../actions/avoids'
+import {Logo} from './Logo'
 
 const BASE_URL = 'http://localhost:3000/api/v1/'
 
@@ -42,8 +42,8 @@ class Banner extends Component {
 
   render(){
     return <div className="top-banner">
-      {this.props.signature !== "" && <NewReportButton />}
-      {this.props.signature !== "" && <NewAvoidButton />}
+      <Logo />
+      {this.props.signature !== "" && <ButtonBarRight />}
       {this.props.signature === "" && <FacebookLogin
         appId="388891491837070"
         autoLoad={true}

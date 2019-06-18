@@ -25,12 +25,12 @@ const MapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={14} defaultCenter={{lat: 47.6129432, lng: -122.3521475}}>
-    <DirectionsRenderer directions={props.directions} defaultOptions={{draggable: true}} options={{draggable: true}} />
-    <HeatmapLayer data={props.heatmap.positions} options={{radius: 100, opacity: .75, maxIntesity: 100, dissipating:true}} />
-    {props.reports && props.reports.map(report => <ReportMarker report={report}/>)}
-    {props.avoids && props.avoids.map(avoid => <AvoidMarker avoid={avoid}/>)}
-  </GoogleMap>
+    <GoogleMap defaultZoom={14} defaultCenter={{lat: 47.6129432, lng: -122.3521475}}>
+      <DirectionsRenderer directions={props.directions} defaultOptions={{draggable: true}} options={{draggable: true}} />
+      <HeatmapLayer data={props.heatmap.positions} options={{radius: 100, opacity: .75, maxIntesity: 100, dissipating:true}} />
+      {props.reports && props.showReports && props.reports.map(report => <ReportMarker report={report}/>)}
+      {props.avoids && props.showAvoids && props.avoids.map(avoid => <AvoidMarker avoid={avoid}/>)}
+    </GoogleMap>
 ));
 
 const mapStateToProps = state => {
@@ -40,7 +40,9 @@ const mapStateToProps = state => {
     directions: state.directions,
     changing_message: state.changing_message,
     reports: state.reports,
-    avoids: state.avoids
+    showReports: state.showReports,
+    avoids: state.avoids,
+    showAvoids: state.showAvoids
   }
 }
 

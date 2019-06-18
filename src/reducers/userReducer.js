@@ -11,10 +11,16 @@ const defaultState = {
   },
   activeMarker: {},
   avoids: [],
+  reports: [],
   crimes: {},
   signature: "",
   directions: {},
-  changing_message: "loading..."
+  showAvoids: true,
+  showReports: true,
+  windowSize: {
+    width: window.innerWidth,
+    height: window.innerHeight
+  }
 }
 
 const transformDataToHeatmap = (data, state) => {
@@ -30,13 +36,20 @@ const transformDataToHeatmap = (data, state) => {
       results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: state.crimeWeights[crimeType]})
     }
   }
-  for(let report of state.reports){
-    results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+
+  if(state.showReports){
+    for(let report of state.reports){
+      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+    }
   }
-  
-  for(let avoid of state.avoids){
-    results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+
+
+  if(state.showAvoids){
+    for(let avoid of state.avoids){
+      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+    }
   }
+
   return results;
 }
 
@@ -53,20 +66,26 @@ const reWeightPositions = (state, weights) => {
     }
   }
 
-  for(let report of state.reports){
-    results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+  if(state.showReports){
+    for(let report of state.reports){
+      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+    }
   }
 
-  for(let avoid of state.avoids){
-    results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+
+  if(state.showAvoids){
+    for(let avoid of state.avoids){
+      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+    }
   }
+
   return results;
 
 
 }
 
 export const userReducer = (state = defaultState, action) => {
-  let newMap;
+  let newMap, newState;
   switch(action.type){
     case 'ASSIGN_MAP':
       return {
@@ -135,6 +154,46 @@ export const userReducer = (state = defaultState, action) => {
         return {
           ...state,
           signature: action.payload.signature
+        }
+
+      case "TOGGLE_AVOID":
+        newState = {
+          ...state,
+          showAvoids: !state.showAvoids
+        }
+        reWeightPositions(newState, newState.crimeWeights)
+        return newState
+
+      case "TOGGLE_REPORT":
+        newState = {
+          ...state,
+          showReports: !state.showReports
+        }
+        reWeightPositions(newState, newState.crimeWeights)
+        return newState
+
+
+      case "UPDATE_LIKES":
+        let newReports = state.reports.map(report => {
+          if(report.id !== action.payload.report.id) return report
+          console.log(report)
+          console.log(action.payload.likes)
+          report.likes = action.payload.likes
+          console.log(report)
+          return report
+        })
+        return {
+          ...state,
+          reports: newReports
+        }
+
+      case "SET_WINDOW_SIZE":
+        return {
+          ...state,
+          windowSize: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          }
         }
 
     default:

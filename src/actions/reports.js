@@ -5,3 +5,12 @@ export const setReports = (reports) => {
 export const addReport = (report) => {
   return {type: "ADD_REPORT", payload: {report}}
 }
+
+export const toggleReportDisplay = () => {
+  return {type: "TOGGLE_REPORT"}
+}
+
+export const updateLikes = (report, likes) => {
+  console.log(likes)
+  return {type: "UPDATE_LIKES", payload: {report, likes: [...likes]}}
+}

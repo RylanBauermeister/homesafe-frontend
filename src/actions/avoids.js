@@ -5,3 +5,7 @@ export const setAvoids = avoids => {
 export const addAvoid = avoid => {
   return {type: "ADD_AVOID", payload: {avoid}}
 }
+
+export const toggleAvoidDisplay = () => {
+  return {type: "TOGGLE_AVOID"}
+}
