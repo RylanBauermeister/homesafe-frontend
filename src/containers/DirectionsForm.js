@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {google_api_key} from '../secrets.js'
 import {set_directions} from '../actions/users'
 import {connect} from 'react-redux'
 
@@ -82,7 +81,7 @@ class DirectionsForm extends Component {
             </div>
           </div>
           <div>
-            
+
           </div>
           <input type="submit" className="ui submit button" value="Get Me There"/>
         </form>
