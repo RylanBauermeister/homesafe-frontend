@@ -7,6 +7,9 @@ class LikeButton extends Component {
 
   constructor(props){
     super(props)
+    this.state = {
+      liked: this.props.report.likes.some(like => props.user.id === like.user_id)
+    }
     this.likeReport = this.likeReport.bind(this)
     this.unlikeReport = this.unlikeReport.bind(this)
   }
@@ -18,7 +21,7 @@ class LikeButton extends Component {
   }
 
   likeReport(){
-    fetch(`http://localhost:3000/api/v1/reports/${this.props.report.id}/like`, {
+    fetch(`http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/${this.props.report.id}/like`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,7 +36,7 @@ class LikeButton extends Component {
   }
 
   unlikeReport(){
-    fetch(`http://localhost:3000/api/v1/reports/${this.props.report.id}/unlike`, {
+    fetch(`http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/${this.props.report.id}/unlike`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -52,7 +55,7 @@ class LikeButton extends Component {
       <Button color={this.state.liked ? 'blue' : 'purple'}
               onClick={this.state.liked ? this.unlikeReport : this.likeReport}>
         <Icon name='heart' />
-        Like
+        {this.state.liked ? "Liked!" : "Like"}  
       </Button>
       <Label as='a' basic color={this.state.liked ? 'blue' : 'purple'} pointing='left'>
         {this.props.report.likes.length}

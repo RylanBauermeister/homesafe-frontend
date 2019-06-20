@@ -16,7 +16,9 @@ class DirectionsForm extends Component {
 
   handleSubmit(ev){
     ev.preventDefault();
-    console.log("Hello!")
+    if(this.props.modalCloser){
+      this.props.modalCloser();
+    }
     const addresses = {start: this.urlify(ev.target.elements["start"].value),
                 end: this.urlify(ev.target.elements["end"].value)
               }
@@ -78,6 +80,9 @@ class DirectionsForm extends Component {
             <div className="field">
               <input className="ui field" name="end" type="text" placeholder="Ending Address..."/>
             </div>
+          </div>
+          <div>
+            
           </div>
           <input type="submit" className="ui submit button" value="Get Me There"/>
         </form>

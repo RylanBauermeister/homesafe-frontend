@@ -11,6 +11,5 @@ export const toggleReportDisplay = () => {
 }
 
 export const updateLikes = (report, likes) => {
-  console.log(likes)
   return {type: "UPDATE_LIKES", payload: {report, likes: [...likes]}}
 }

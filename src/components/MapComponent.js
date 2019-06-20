@@ -9,8 +9,6 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
-  InfoWindow,
   DirectionsRenderer
 } from "react-google-maps";
 
@@ -19,7 +17,7 @@ const MapComponent = compose(
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key="+ google_api_key +"&v=3.exp&libraries=geometry,drawing,places,visualization",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `90vh` }} />,
+    containerElement: <div style={{ height: `80vh` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
@@ -28,8 +26,8 @@ const MapComponent = compose(
     <GoogleMap defaultZoom={14} defaultCenter={{lat: 47.6129432, lng: -122.3521475}}>
       <DirectionsRenderer directions={props.directions} defaultOptions={{draggable: true}} options={{draggable: true}} />
       <HeatmapLayer data={props.heatmap.positions} options={{radius: 100, opacity: .75, maxIntesity: 100, dissipating:true}} />
-      {props.reports && props.showReports && props.reports.map(report => <ReportMarker report={report}/>)}
-      {props.avoids && props.showAvoids && props.avoids.map(avoid => <AvoidMarker avoid={avoid}/>)}
+      {props.reports && props.showReports && props.reports.map(report => <ReportMarker key={`report-${report.id}`} report={report}/>)}
+      {props.avoids && props.showAvoids && props.avoids.map(avoid => <AvoidMarker key={`avoid-${avoid.id}`} avoid={avoid}/>)}
     </GoogleMap>
 ));
 

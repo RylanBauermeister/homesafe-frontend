@@ -25,7 +25,7 @@ class NewReportButton extends Component {
         notes: this.reportForm.current.elements["notes"].value
       }
 
-      fetch("http://localhost:3000/api/v1/reports", {
+      fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports", {
         method: "POST",
         headers: {
           'content-type': 'application/json'
@@ -57,35 +57,36 @@ class NewReportButton extends Component {
 
   render(){
     return (
-      <Modal
-        trigger={this.getButtonToRender()}
-        open={this.state.modalOpen}
-        onClose={this.handleClose}
-        size='small'
-        closeIcon
-      >
-        <Header icon='warning sign' content='Create New Report' />
-        <Modal.Content>
-          <h3>Think a safe route is no good? Report it!</h3>
-          <form ref={this.reportForm} className="ui form">
-            <div className="field">
-              <label>Address To Report</label>
-              <input type="text" name="address" className="ui field" placeholder="address"/>
-            </div>
-            <div className="field">
-              <label>Notes</label>
-              <textarea name="notes" className="ui field" placeholder="Notes"/>
-            </div>
+        <Modal
+          trigger={this.getButtonToRender()}
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
+          size='small'
+          transition={{animation: "fade up", duration: 500}}
+          closeIcon
+        >
+          <Header icon='warning sign' content='Create New Report' />
+          <Modal.Content>
+            <h3>Think a safe route is no good? Report it!</h3>
+            <form ref={this.reportForm} className="ui form">
+              <div className="field">
+                <label>Address To Report</label>
+                <input type="text" name="address" className="ui field" placeholder="address"/>
+              </div>
+              <div className="field">
+                <label>Notes</label>
+                <textarea name="notes" className="ui field" placeholder="Notes"/>
+              </div>
 
 
-          </form>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button color='green' onClick={() => this.handleClose(true)}>
-            <Icon name='checkmark' /> Create
-          </Button>
-        </Modal.Actions>
-      </Modal>
+            </form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='green' onClick={() => this.handleClose(true)}>
+              <Icon name='checkmark' /> Create
+            </Button>
+          </Modal.Actions>
+        </Modal>
     )
   }
 }

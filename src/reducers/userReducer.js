@@ -1,13 +1,15 @@
 const defaultState = {
   user: null,
-  heatmap: {positions: [], options: {radius: 5, opacity: .75, maxIntesity: 100, dissipating:true}},
+  heatmap: {positions: [], options: {radius: 5, opacity: .75}},
   crimeWeights: {
     crimesAgainstPersons: 0,
     crisisAndInjury: 0,
     drugsAndVice: 0,
     miscCrimes: 0,
     propertyCrime: 0,
-    trafficCrime: 0
+    trafficCrime: 0,
+    avoid: 100,
+    report: 100
   },
   activeMarker: {},
   avoids: [],
@@ -29,7 +31,6 @@ const transformDataToHeatmap = (data, state) => {
     positions: [],
     options: {radius: 50, opacity: 1}
   }
-  console.log("foo")
   for(let crimeType in data){
     if (state.crimeWeights[crimeType] === 0) continue;
     for(let crime of data[crimeType]){
@@ -39,14 +40,14 @@ const transformDataToHeatmap = (data, state) => {
 
   if(state.showReports){
     for(let report of state.reports){
-      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
     }
   }
 
 
   if(state.showAvoids){
     for(let avoid of state.avoids){
-      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
     }
   }
 
@@ -68,14 +69,14 @@ const reWeightPositions = (state, weights) => {
 
   if(state.showReports){
     for(let report of state.reports){
-      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: 100})
+      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
     }
   }
 
 
   if(state.showAvoids){
     for(let avoid of state.avoids){
-      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: 100})
+      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
     }
   }
 
@@ -146,7 +147,9 @@ export const userReducer = (state = defaultState, action) => {
       newMap = reWeightPositions(state, action.payload.weights)
       return {
         ...state,
-        crimeWeights: action.payload.weights,
+        crimeWeights: {
+          ...state.crimeWeights,
+          ...action.payload.weights},
         heatmap: newMap
       }
 
@@ -176,10 +179,7 @@ export const userReducer = (state = defaultState, action) => {
       case "UPDATE_LIKES":
         let newReports = state.reports.map(report => {
           if(report.id !== action.payload.report.id) return report
-          console.log(report)
-          console.log(action.payload.likes)
           report.likes = action.payload.likes
-          console.log(report)
           return report
         })
         return {

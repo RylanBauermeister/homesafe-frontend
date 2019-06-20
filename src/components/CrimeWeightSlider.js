@@ -11,12 +11,8 @@ class CrimeWeightSlider extends React.Component {
     this.sliderRef = React.createRef()
   }
 
-  componentDidMount(){
-    // this.sliderRef.module.setValuePosition(20)
-  }
-
   updateWeight(weight){
-    fetch("http://localhost:3000/api/v1/users/"+this.props.user.id, {
+    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/users/"+this.props.user.id, {
       method: "PATCH",
       headers: {
         "content-type": "application/json"
@@ -34,7 +30,6 @@ class CrimeWeightSlider extends React.Component {
   }
 
   render(){
-    console.log("Rerendering " + this.props.crimeType + " @ " + this.props.weights[this.props.crimeType])
     return (
       <div className="crime-weight-slider">
         <div className="slider-label">

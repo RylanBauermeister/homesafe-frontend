@@ -1,29 +1,10 @@
-import React, { Component } from 'react'
-import WeightingForm from '../containers/WeightingForm'
-import DirectionsForm from '../containers/DirectionsForm'
-import {connect} from 'react-redux'
+import React from 'react'
+import DirectionsButton from './DirectionsButton'
 
-class BottomBar extends Component {
-
-  constructor(props){
-    super(props)
-    this.state = {
-
-    }
-  }
-
-  render(){
+const BottomBar = props => {
     return <div className="bottom-bar">
-      {this.props.user && <WeightingForm />}
-      <DirectionsForm />
+      <DirectionsButton />
     </div>;
-  }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  }
-}
-
-export default connect(mapStateToProps)(BottomBar)
+export default BottomBar

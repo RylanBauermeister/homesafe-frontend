@@ -6,7 +6,7 @@ import {set_user, set_signature, set_weights} from '../actions/users'
 import {setAvoids} from '../actions/avoids'
 import {Logo} from './Logo'
 
-const BASE_URL = 'http://localhost:3000/api/v1/'
+const BASE_URL = 'http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/'
 
 class Banner extends Component {
 

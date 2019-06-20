@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Modal, Button, Header, Icon} from 'semantic-ui-react'
+import {Modal, Button, Header} from 'semantic-ui-react'
 import {Marker} from "react-google-maps"
 import {setAvoids} from "../actions/avoids"
 
@@ -18,7 +18,7 @@ class AvoidMarker extends Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   deleteAvoid() {
-    fetch("http://localhost:3000/api/v1/avoids/"+this.props.avoid.id, {
+    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/avoids/"+this.props.avoid.id, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

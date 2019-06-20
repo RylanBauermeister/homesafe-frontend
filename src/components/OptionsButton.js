@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Modal, Button, Header, Icon} from 'semantic-ui-react'
+import {Modal, Button, Header} from 'semantic-ui-react'
 import {toggleAvoidDisplay} from '../actions/avoids'
 import {toggleReportDisplay} from '../actions/reports'
+import WeightingForm from '../containers/WeightingForm'
 
 class OptionsButton extends Component {
 
@@ -27,6 +28,7 @@ class OptionsButton extends Component {
           open={this.state.modalOpen}
           onClose={this.handleClose}
           size='small'
+          basic
           closeIcon
         >
           <Header icon='options' content={`Options`} />
@@ -34,13 +36,20 @@ class OptionsButton extends Component {
             <form className="ui form">
               <div className="ui toggle checkbox">
                 <input type="checkbox" name="show-reports" onChange={this.props.toggleReportDisplay} checked={this.props.showReports}/>
-                <label>Show User Generated Reports</label>
+                <label ref={element => {
+                      if (element) element.style.setProperty('color', 'white', 'important');
+                    }}
+                    >Show User Generated Reports</label>
               </div>
               <div className="ui toggle checkbox">
                 <input type="checkbox" name="show-avoids" onChange={this.props.toggleAvoidDisplay} checked={this.props.showAvoids}/>
-                <label>Show Your Avoided Locations</label>
+                <label ref={element => {
+                          if (element) element.style.setProperty('color', 'white', 'important');
+                        }}
+                        >Show Your Avoided Locations</label>
               </div>
             </form>
+            <WeightingForm />
           </Modal.Content>
           <Modal.Actions>
 

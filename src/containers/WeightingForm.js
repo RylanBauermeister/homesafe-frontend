@@ -1,19 +1,31 @@
 import React, { Component } from 'react'
 import CrimeWeightSlider from '../components/CrimeWeightSlider'
+import {connect} from 'react-redux'
+
+
+function sliders(weights) {
+  let result = [];
+  for(let key in weights){
+    result.push(<CrimeWeightSlider key={key} crimeType={key}/>)
+  }
+
+  return result;
+}
 
 class WeightingForm extends Component {
   render(){
     return <div className="user-options">
       <div className="options-container">
-        <CrimeWeightSlider crimeType="crimesAgainstPersons" />
-        <CrimeWeightSlider crimeType="crisisAndInjury" />
-        <CrimeWeightSlider crimeType="drugsAndVice" />
-        <CrimeWeightSlider crimeType="miscCrimes" />
-        <CrimeWeightSlider crimeType="propertyCrime" />
-        <CrimeWeightSlider crimeType="trafficCrime" />
+        {sliders(this.props.crimeWeights)}
       </div>
     </div>;
   }
 }
 
-export default WeightingForm
+const mapStateToProps = state => {
+  return {
+    crimeWeights: state.crimeWeights
+  }
+}
+
+export default connect(mapStateToProps)(WeightingForm)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Modal, Button, Header, Icon} from 'semantic-ui-react'
+import {Modal, Button, Header} from 'semantic-ui-react'
 import {Marker} from "react-google-maps"
 import {setReports} from "../actions/reports"
 import LikeButton from "./LikeButton"
@@ -20,7 +20,7 @@ class ReportMarker extends Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   deleteReport() {
-    fetch("http://localhost:3000/api/v1/reports/"+this.props.report.id, {
+    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/"+this.props.report.id, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
