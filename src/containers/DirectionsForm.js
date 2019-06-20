@@ -43,7 +43,7 @@ class DirectionsForm extends Component {
   }
 
   parseAddress(address){
-    return fetch("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key="+google_api_key)
+    return fetch("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key=AIzaSyA5tbFM5k4j2MOPGTBB0kuCBQI9UIhpX3U")
     .then(res => res.json())
   }
 
