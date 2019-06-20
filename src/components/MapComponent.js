@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose, withProps } from "recompose";
-import {google_api_key} from '../secrets'
 import ReportMarker from './ReportMarker'
 import AvoidMarker from './AvoidMarker'
 import {connect} from 'react-redux'
