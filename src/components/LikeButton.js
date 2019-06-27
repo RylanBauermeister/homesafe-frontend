@@ -21,7 +21,7 @@ class LikeButton extends Component {
   }
 
   likeReport(){
-    fetch(`http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/${this.props.report.id}/like`, {
+    fetch(`https://homesafeapi.com/api/v1/reports/${this.props.report.id}/like`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -36,7 +36,7 @@ class LikeButton extends Component {
   }
 
   unlikeReport(){
-    fetch(`http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/${this.props.report.id}/unlike`, {
+    fetch(`https://homesafeapi.com/api/v1/reports/${this.props.report.id}/unlike`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -55,7 +55,7 @@ class LikeButton extends Component {
       <Button color={this.state.liked ? 'blue' : 'purple'}
               onClick={this.state.liked ? this.unlikeReport : this.likeReport}>
         <Icon name='heart' />
-        {this.state.liked ? "Liked!" : "Like"}  
+        {this.state.liked ? "Liked!" : "Like"}
       </Button>
       <Label as='a' basic color={this.state.liked ? 'blue' : 'purple'} pointing='left'>
         {this.props.report.likes.length}

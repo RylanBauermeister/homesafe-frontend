@@ -20,7 +20,7 @@ class ReportMarker extends Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   deleteReport() {
-    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports/"+this.props.report.id, {
+    fetch("https://homesafeapi.com/api/v1/reports/"+this.props.report.id, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

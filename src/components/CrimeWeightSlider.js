@@ -12,7 +12,7 @@ class CrimeWeightSlider extends React.Component {
   }
 
   updateWeight(weight){
-    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/users/"+this.props.user.id, {
+    fetch("https://homesafeapi.com/api/v1/users/"+this.props.user.id, {
       method: "PATCH",
       headers: {
         "content-type": "application/json"

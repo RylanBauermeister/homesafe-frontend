@@ -18,7 +18,7 @@ class AvoidMarker extends Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   deleteAvoid() {
-    fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/avoids/"+this.props.avoid.id, {
+    fetch("https://homesafeapi.com/api/v1/avoids/"+this.props.avoid.id, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

@@ -25,7 +25,7 @@ class NewReportButton extends Component {
         notes: this.reportForm.current.elements["notes"].value
       }
 
-      fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports", {
+      fetch("https://homesafeapi.com/api/v1/reports", {
         method: "POST",
         headers: {
           'content-type': 'application/json'

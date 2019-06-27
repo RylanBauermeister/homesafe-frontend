@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   loadCrimes(){
-    fetch('http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/crimes')
+    fetch('https://homesafeapi.com/api/v1/crimes')
     .then(res => res.json())
     .then(crimes => {
       this.props.set_heatmap(crimes);
@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   loadReports(){
-    fetch('http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/reports')
+    fetch('https://homesafeapi.com/api/v1/reports')
     .then(res => res.json())
     .then(reports => {
       this.props.setReports(reports)

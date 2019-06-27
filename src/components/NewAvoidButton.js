@@ -26,7 +26,7 @@ class NewAvoidButton extends Component {
         notes: this.avoidForm.current.elements["notes"].value
       }
 
-      fetch("http://homesafebackend-env.pqjmvw5jnc.us-west-2.elasticbeanstalk.com/api/v1/avoids", {
+      fetch("https://homesafeapi.com/api/v1/avoids", {
         method: "POST",
         headers: {
           'content-type': 'application/json'
