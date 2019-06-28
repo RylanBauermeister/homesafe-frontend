@@ -25,6 +25,10 @@ const defaultState = {
   }
 }
 
+const unlocated = (event) => {
+  return event.lat === 0 && (event.lon === 0 || event.lng === 0)
+}
+
 const transformDataToHeatmap = (data, state) => {
   state.crimes = data;
   let results = {
@@ -34,20 +38,20 @@ const transformDataToHeatmap = (data, state) => {
   for(let crimeType in data){
     if (state.crimeWeights[crimeType] === 0) continue;
     for(let crime of data[crimeType]){
-      results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: state.crimeWeights[crimeType]})
+      if (!unlocated(crime)) results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: state.crimeWeights[crimeType]})
     }
   }
 
   if(state.showReports){
     for(let report of state.reports){
-      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
+      if (!unlocated(report)) results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
     }
   }
 
 
   if(state.showAvoids){
     for(let avoid of state.avoids){
-      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
+      if (!unlocated(avoid)) results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
     }
   }
 
@@ -63,20 +67,20 @@ const reWeightPositions = (state, weights) => {
   for(let crimeType in state.crimes){
     if (state.crimeWeights[crimeType] === 0) continue;
     for(let crime of state.crimes[crimeType]){
-      results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: weights[crimeType]})
+      if (!unlocated(crime)) results.positions.push({location: new window.google.maps.LatLng(crime.lat, crime.lon), weight: weights[crimeType]})
     }
   }
 
   if(state.showReports){
     for(let report of state.reports){
-      results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
+      if (!unlocated(report)) results.positions.push({location: new window.google.maps.LatLng(report.lat, report.lng), weight: state.crimeWeights.report})
     }
   }
 
 
   if(state.showAvoids){
     for(let avoid of state.avoids){
-      results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
+      if (!unlocated(avoid)) results.positions.push({location: new window.google.maps.LatLng(avoid.lat, avoid.lng), weight: state.crimeWeights.avoid})
     }
   }
 
